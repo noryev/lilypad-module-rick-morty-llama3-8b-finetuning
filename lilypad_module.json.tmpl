@@ -13,10 +13,10 @@
       "Docker": {
         "Entrypoint": ["/bin/bash", "-c"],
         "Command": [
-          "export PROMPT=\"${PROMPT:-Default prompt}\" && ollama serve & sleep 5 && ollama run llama2 \"$PROMPT\" > /outputs/response.txt"
+          "export PROMPT=\"${INPUT_PROMPT:-Default prompt}\" && ollama serve & sleep 5 && ollama run llama2 \"$PROMPT\" > /outputs/response.txt"
         ],
         "EnvironmentVariables": [
-          "PROMPT={{ .Prompt }}"
+          "INPUT_PROMPT={{ .INPUT_PROMPT }}"
         ],
         "Image": "mavericb/ollama:llama3-8b-lilypad-v20240829062256"
       },
