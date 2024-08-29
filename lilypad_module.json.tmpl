@@ -11,9 +11,12 @@
         "Concurrency": 1
       },
       "Docker": {
-        "Entrypoint": null,
+        "Entrypoint": ["/bin/bash", "-c"],
+        "Command": [
+          "export PROMPT=\"${PROMPT:-Default prompt}\" && ollama serve & sleep 5 && ollama run llama2 \"$PROMPT\" > /outputs/response.txt"
+        ],
         "EnvironmentVariables": [
-          "{{ if .Prompt }}PROMPT={{ .Prompt }}{{ end }}"
+          "PROMPT={{ .Prompt }}"
         ],
         "Image": "mavericb/ollama:llama3-8b-lilypad-v20240829062256"
       },
@@ -31,7 +34,7 @@
         "Type": "ipfs"
       },
       "Resources": {
-        "GPU": ""
+        "GPU": "1"
       },
       "Timeout": 1800,
       "Verifier": "Noop"
