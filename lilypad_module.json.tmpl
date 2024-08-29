@@ -1,40 +1,43 @@
 {
-    "machine": {
-        "gpu": 1,
-        "cpu": 1000,
-        "ram": 1000
-    },
-    "job": {
-        "APIVersion": "V1beta1",
-        "Spec": {
-            "Deal": {
-                "Concurrency": 1
-            },
-            "Docker": {
-                "Entrypoint": null,
-                "EnvironmentVariables": [
-                    {{ if .Prompt }}"{{ subst "PROMPT=%s" .Prompt }}"{{ end }}
-                ],
-                "Image": "mavericb/ollama:llama3-8b-lilypad-v20240829062256"
-            },
-            "Engine": "Docker",
-            "Network": {
-                "Type": "None"
-            },
-            "Outputs": [
-                {
-                "Name": "outputs",
-                "Path": "/outputs"
-                }
-            ],
-            "PublisherSpec": {
-                "Type": "ipfs"
-            },
-            "Resources": {
-                "GPU": ""
-            },
-            "Timeout": 1800,
-            "Verifier": "Noop"
+  "machine": {
+    "gpu": 1,
+    "cpu": 1000,
+    "ram": 1000
+  },
+  "job": {
+    "APIVersion": "V1beta1",
+    "Spec": {
+      "Deal": {
+        "Concurrency": 1
+      },
+      "Docker": {
+        "Entrypoint": ["/bin/bash", "-c"],
+        "Image": "mavericb/ollama:llama3-8b-lilypad-v20240829062256",
+        "Command": [
+          "ollama serve & sleep 5 && ollama run llama2 \"$PROMPT\" > /outputs/response.txt"
+        ],
+        "EnvironmentVariables": [
+          "{{ if .Prompt }}PROMPT={{ .Prompt }}{{ end }}"
+        ]
+      },
+      "Engine": "Docker",
+      "Network": {
+        "Type": "None"
+      },
+      "Outputs": [
+        {
+          "Name": "outputs",
+          "Path": "/outputs"
         }
+      ],
+      "PublisherSpec": {
+        "Type": "IPFS"
+      },
+      "Resources": {
+        "GPU": "1"
+      },
+      "Timeout": 1800,
+      "Verifier": "Noop"
     }
+  }
 }
