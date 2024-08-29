@@ -11,14 +11,11 @@
         "Concurrency": 1
       },
       "Docker": {
-        "Entrypoint": ["/bin/bash", "-c"],
-        "Image": "mavericb/ollama:llama3-8b-lilypad-v20240829062256",
-        "Command": [
-          "ollama serve & sleep 5 && ollama run llama2 \"$PROMPT\" > /outputs/response.txt"
-        ],
+        "Entrypoint": null,
         "EnvironmentVariables": [
           "{{ if .Prompt }}PROMPT={{ .Prompt }}{{ end }}"
-        ]
+        ],
+        "Image": "mavericb/ollama:llama3-8b-lilypad-v20240829062256"
       },
       "Engine": "Docker",
       "Network": {
@@ -31,10 +28,10 @@
         }
       ],
       "PublisherSpec": {
-        "Type": "IPFS"
+        "Type": "ipfs"
       },
       "Resources": {
-        "GPU": "1"
+        "GPU": ""
       },
       "Timeout": 1800,
       "Verifier": "Noop"
