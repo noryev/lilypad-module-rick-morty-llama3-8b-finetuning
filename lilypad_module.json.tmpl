@@ -13,7 +13,7 @@
       "Docker": {
         "Entrypoint": ["/bin/bash", "-c"],
         "Command": [
-          "export PROMPT=\"${INPUT_PROMPT:-Default prompt}\" && ollama serve & sleep 5 && ollama run llama2 \"$PROMPT\" > /outputs/response.txt"
+          "mkdir -p /app/dataset && wget -O /app/dataset/dataset.zip https://your-dataset-url.com/dataset.zip && unzip /app/dataset/dataset.zip -d /app/dataset && export INPUT_PROMPT=\"${INPUT_PROMPT:-Default prompt}\" && python /app/main.py"
         ],
         "EnvironmentVariables": [
           "INPUT_PROMPT={{ .INPUT_PROMPT }}"
